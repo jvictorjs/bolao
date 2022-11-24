@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+
+<head>
+    <title>Bolão 2022</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.10/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <meta charset="UTF-8"> <!-- important to show special chars -->
+    <link rel="icon" type="image/png" href="./img/soccer.png">
+    <link rel="stylesheet" href="index.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+
+<body>
+    <div id="app" style="display: none;">
+        <v-app>
+            <v-main id="main">
+                <v-container v-if="isLoading" class="align-center justify-center appContainer black" fluid fill-height>
+                    <v-sheet class="transparent" transition="fade-transition" width="182">
+                        <v-progress-linear indeterminate class="white" color="grey darken-3"></v-progress-linear>
+                    </v-sheet>
+                </v-container>
+                <v-container v-else class="px-5 py-0 grey lighten-2 d-flex flex-column align-center justify-space-between elevation-10 " fluid fill-height>
+                    <v-sheet class="transparent elevation-0" height="10%">
+
+                    </v-sheet>
+
+                    <v-sheet class="pa-5 d-flex flex-column align-center justify-center rounded-lg transparent elevation-0" width="95%" max-width="1440" height="75%" max-height="1200">
+                        <v-sheet v-if="isMobile" class="d-flex flex-column align-center transparent elevation-0">
+                            <v-sheet class="my-3 pa-3 text-center rounded-lg elevation-2 mx-auto" max-width="300">
+                                PLEASE ROTATE YOUR DEVICE
+                                <v-icon large color="grey darken-1"> mdi-phone-rotate-landscape </v-icon>
+                            </v-sheet>
+                            <v-sheet class="mt-10 text-center transparent grey--text text--darken-2" max-width="300">
+
+                            </v-sheet>
+                        </v-sheet>
+
+                        <v-sheet v-else class="transparent" width="100%" height="100%" min-width="340" min-height="200" style="position: relative;" max-width="800">
+                            <v-sheet class="transparent" width="100%" height="100%" style="perspective: 5000px;">
+                                <v-sheet class="content-container rounded-lg elevation-10" id="content-container">
+                                    <v-sheet class="rounded-lg pa-1 d-flex flex-column justify-space-between" style="z-index: 9999; position:absolute; width: 100%; height: 100%;">
+                                        <v-sheet class="mt-2 mb-2 text-center text-h5 font-weight-bold" width="100%">
+                                            <v-icon large class="mr-5" color="grey darken-1"> mdi-format-list-numbered </v-icon>
+                                            Ranking Bolão 2022
+                                        </v-sheet>
+                                        <v-sheet class="d-flex flex-wrap justify-space-around overflow-y-auto elevation-0" :height="'90%'">
+                                            <v-sheet v-for="rank in ranking" key="rank[1]" class="d-flex flex-column justify-space-around align-center mx-3 my-2 rounded-lg py-1" width="95%"
+                                                max-width="600" @click="toggleExpandedDetails(rank[1])">
+                                                <v-hover v-slot="{ hover }">
+                                                    <v-sheet class="d-flex flex-row justify-space-around align-center rounded-lg grey lighten-2" width="100%" :elevation="hover ? 5 : 2">
+                                                        <v-sheet class="transparent text-h5 text-center" width="30">
+                                                            {{rank[0]}}
+                                                        </v-sheet>
+                                                        <v-sheet width="40%" class=" transparent text-truncate">
+                                                            {{rank[1]}}
+                                                        </v-sheet>
+                                                        <v-sheet width="35" class=" elevation-0 transparent">
+                                                            ({{rank[3]}})
+                                                        </v-sheet>
+                                                        <v-sheet width="50" class=" transparent">
+                                                            {{rank[4]}}<sub>pts</sub>
+                                                        </v-sheet>
+                                                    </v-sheet>
+                                                </v-hover>
+                                                <v-sheet v-if="expandedDetails[rank[1]]" class="mt-2 px-2 d-flex flex-column justify-center rounded grey lighten-4 " width="95%">
+                                                    <v-sheet v-for="palpite in palpites.filter(p => p[1] === rank[1])" key="rank[1]+_p[0]" class="d-flex flex-row transparent " width="100%">
+                                                        <v-sheet class="transparent text-truncate" width="60%">
+                                                            {{palpite[0].replace(' x ',' '+palpite[3]+' ')}}
+                                                        </v-sheet>
+                                                        <v-sheet class="transparent text-truncate" width="15%">{{palpite[2]}} </v-sheet>
+                                                        <v-sheet class="transparent text-truncate" width="15%"> {{palpite[4]}}<sub>pts</sub>
+                                                        </v-sheet>
+                                                        <v-sheet class="transparent text-truncate elevation-0" width="10%"> <span v-if="palpite[4] === 12">✅</span>
+                                                        </v-sheet>
+                                                    </v-sheet>
+                                                </v-sheet>
+                                            </v-sheet>
+                                        </v-sheet>
+                                        <v-sheet class="transparent" height="10"></v-sheet>
+                                    </v-sheet>
+                                </v-sheet>
+
+
+                            </v-sheet>
+                        </v-sheet>
+                    </v-sheet>
+                    <v-sheet class="d-flex flex-column justify-end transparent elevation-0" height="10%" max-width="1200">
+                        <v-hover v-slot="{ hover }">
+                            <v-sheet class="rounded-t-lg elevation-5">
+                                <v-sheet v-if="hover" class="px-3 pt-2 text-wrap text-center text-caption text--secondary transparent">
+                                    Responsive web page built from scratch with <b>VUE.JS</b>, using <b>JAVASCRIPT</b>, <b>HTML</b> and <b>CSS</b>.
+                                    In addition, to faster and beauty design I used <b>VUETIFY</b> UI library and some <b>MATERIAL DESIGN ICONS</b>.
+                                    Hosted in a Linux <b>UBUNTU</b> dedicated server at <b>DIGITALOCEAN</b> cloud infrastructure. Version control by
+                                    <b>GIT</b> and <b>GITHUB</b>. Reverse proxy with <b>NGINX</b>. <b>SSL</b> certification with <b>CERTBOT</b> |
+                                    screen: {{$vuetify.breakpoint.width}}x{{$vuetify.breakpoint.height}} | isMobile: {{isMobileLastStatus}}
+                                </v-sheet>
+                                <v-sheet class="pa-3 transparent">
+                                    <v-sheet class="text-caption text-center"> 2022 <a href="https://github.com/jvictorjs" target="_blank">@jvictorjs</a>
+                                    </v-sheet>
+                                </v-sheet>
+                            </v-sheet>
+                        </v-hover>
+                    </v-sheet>
+                </v-container>
+            </v-main>
+        </v-app>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.10/dist/vuetify.js"></script>
+    <script type="module">
+
+        new Vue({
+            el: '#app',
+            vuetify: new Vuetify(),
+
+            data() {
+                return {
+                    devSettings: {
+                        isProductionMode: true,
+                        isShowUsefulLinks: false,
+                    },
+                    isMobileLastStatus: true,
+                    isLoading: true,
+                    minimumScreenWidth: 360,
+                    minimumScreenHeight: 360,
+                    expandedDetails: {},
+                    settings: {
+                        isGrayscalePalette: false,
+                        isAnimationsEnabled: true,
+                    },
+                    allTechsElementsIds: [],
+                    GOOGLE_APPS_SCRIPTS_ID: 'AKfycbzGhsKHc_ObAjmBXwo0RwZ3AgrF_tjSt8cm6ysD36hHaWBYO-HhKF-RscyYNfxWnLV5',
+                    ranking: [],
+                    palpites: [],
+                }
+            },
+            created() {
+                console.log('created ' + new Date());
+            },
+            mounted() {
+                console.log('mounted ' + new Date())
+                setTimeout(() => {
+                    document.querySelector('#app').style.display = 'inline'
+                    this.getRankingData(true);
+                }, 300);
+            },
+            watch: {
+                // whenever newIsMobileLastStatus changes, this function will run
+                isMobileLastStatus(newIsMobileLastStatus, oldIsMobileLastStatus) {
+                    console.log('isMobile changed to', newIsMobileLastStatus)
+                }
+            },
+            computed: {
+                isMobile() {
+                    console.log('isMobile computed = ' + this.$vuetify.breakpoint.width + 'x' + this.$vuetify.breakpoint.height)
+                    const isCurrentMobile = this.$vuetify.breakpoint.width < this.minimumScreenWidth || this.$vuetify.breakpoint.height < this.minimumScreenHeight;
+                    this.isMobileLastStatus = isCurrentMobile
+                    return isCurrentMobile
+                }
+            },
+            methods: {
+                getRankingData(isConsoleLogMessage) {
+                    const GOOGLE_APPS_SCRIPT_WEBAPP_BASE_URL = 'https://script.google.com/macros/s/';
+                    const URL = GOOGLE_APPS_SCRIPT_WEBAPP_BASE_URL + this.GOOGLE_APPS_SCRIPTS_ID + '/exec?getRankingAndPalpites=' + 'get'
+                    //https://script.google.com/macros/s//exec?getRankingAndPalpites=get
+                    fetch(URL)
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (isConsoleLogMessage) { console.log('data:', data) }
+                            this.ranking = data.ranking
+                            this.palpites = data.palpites
+                            this.isLoading = false
+                        });
+                },
+                toggleExpandedDetails(personName) {
+                    console.error("this.expandedDetails = " + JSON.stringify(this.expandedDetails));
+                    this.expandedDetails[personName] = !this.expandedDetails[personName];
+                    console.error("this.expandedDetails = " + JSON.stringify(this.expandedDetails));
+                    this.$forceUpdate(); // $forceUpdate() is much faster than forceRerender()
+                    //this.forceRerender();
+                },
+            }
+        })
+
+    </script>
+</body>
+
+</html>
